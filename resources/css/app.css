@@ -1,0 +1,74 @@
+
+@import "~bootstrap/dist/css/bootstrap.min";
+
+body {
+    font-family: sans-serif;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.Wexample {
+    display: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    /*  padding-top: 10px;
+    padding-bottom: 5px; */
+    border: 1px #cbf2ee solid;
+    background-color: orange;
+}
+
+.checkFormat {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.closer {
+    font-size: 20px;
+    float: right;
+    color: red;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.confirm {
+    display: none;
+    color: green;
+    font-weight: bold;
+    margin-left: 10px;
+    border: 1px green solid;
+    padding: 5px;
+}
+
+#wsource1 {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#wait {
+    display: none;
+}
+
+button {
+    margin: 3px !important;
+}
+
+.waitdiv {
+    display: inline;
+}
+textarea{
+    border : 1px grey solid;
+    border-radius: 5px;
+}
+
+#convertDone{
+display:none;
+}
+
+#downloadDone{
+    display:none;
+}
