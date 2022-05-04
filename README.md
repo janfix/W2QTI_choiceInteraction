@@ -1,6 +1,6 @@
-<p align="center"><a href="https://wiquid.fr" target="_blank"><img src="https://wiquid.fr/projects/w2qti/WiquidTiles.png" width="400"></a></p>
+<p align="center"><a href="https://wiquid.fr" target="_blank"><img src="https://wiquid.fr/projects/w2qti/img/WiquidTiles.png" width="400"></a></p>
 
-<p align="center"><a href="https://wiquid.fr/projects/w2qti" target="_blank"><img src="https://wiquid.fr/projects/w2qti/logow2QTI.png" width="400"></a></p>
+<p align="center"><a href="https://wiquid.fr/projects/w2qti" target="_blank"><img src="https://wiquid.fr/projects/w2qti/img/logow2QTI.png" width="400"></a></p>
 
 
 ## About W2QTI
