@@ -76,3 +76,11 @@ display:none;
 #downloadDone{
     display:none;
 }
+
+.titleHeader{
+    position: absolute;
+    color:white;
+    margin-left:140px;
+    font-weight: 300;
+    font-size: larger;
+}

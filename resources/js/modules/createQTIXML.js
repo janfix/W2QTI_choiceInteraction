@@ -2,7 +2,17 @@ import $ from "jquery";
 import FusionManifestElement from "./FusionManifestElement";
 
 export default function createQTIXML(codeItem, rootDir, ObjItemSerie) {
-    console.log(ObjItemSerie);
+    
+    var shuffleChoice = $("#shuffleChoice").prop("checked");
+    var timeDep = $("#timeDep").prop("checked");
+    var orientation = $("#orientation").val();
+    var itemPerPage = $("#itemPerPage").val();
+    console.log("---------ITEM GROUPS : 3 ---------")
+    console.log(Math.trunc(ObjItemSerie.length/3))
+    console.log(ObjItemSerie.length%3)
+    var itPage = [];
+    
+
 
     for (var i = 0; i < ObjItemSerie.length; i++) {
         var Qindex = "Q" + (i + 1);
@@ -12,7 +22,7 @@ export default function createQTIXML(codeItem, rootDir, ObjItemSerie) {
         var QTIXML_Header =
             '<?xml version="1.0" encoding="UTF-8"?>' +
             '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="' + Qindex + '"' +
-            ' title="' + Qindex + '-' + shortQ + '" label="' + Qindex + '" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.2.0-RC2">';
+            ' title="' + Qindex + '-' + shortQ + '" label="' + Qindex + '" xml:lang="en-US" adaptive="false" timeDependent="' + timeDep +'" toolName="TAO" toolVersion="3.2.0-RC2">';
        
         
         function ResponseDeclarationBuilder(ans){
@@ -59,7 +69,7 @@ export default function createQTIXML(codeItem, rootDir, ObjItemSerie) {
             '<itemBody>' +
             '<div class="grid-row">' +
             '<div class="col-12">' +
-            '<choiceInteraction responseIdentifier="RESPONSE" shuffle="true" maxChoices="' + maxChoices+'" minChoices="0" orientation="vertical">';
+            '<choiceInteraction responseIdentifier="RESPONSE" shuffle="' + shuffleChoice + '" maxChoices="' + maxChoices + '" minChoices="0" orientation="' + orientation +'">';
         var realQuestion = '<prompt><h1>' + Intitulex + '</h1></prompt>';
         var ansLine;
         var ansSet = '';
@@ -83,7 +93,6 @@ export default function createQTIXML(codeItem, rootDir, ObjItemSerie) {
             data: ({ name: Qindex, data: totalQti, dirname: rootDir }),
             url: 'writeQTIContent',
             success: function (data) {
-                console.log('QTI Content Written');
                 FusionManifestElement(codeItem, rootDir, ObjItemSerie);
                
             }
