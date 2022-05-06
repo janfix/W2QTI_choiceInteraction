@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mb-2">
+                <div hidden class="row mb-2">
                     <div class="col-2">
                        <label for="itemGroup">Question(s) per page</label>
                         <input type="number" class="form-control" id="itemPerPage" placeholder="1" value="1">
