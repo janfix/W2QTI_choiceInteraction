@@ -1,6 +1,6 @@
 import $ from "jquery";
 import createRootDir from "./ createRootDir";
-import createDirs from "./createDirs";
+
 
 export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
     var wsource = $(".wsource").val();
@@ -12,7 +12,14 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
     var goodAnswer = [];
     var rootDir;
     var itAnsChecker = [];
-    var itemType;
+
+
+    Array.prototype.chunk = function (n) {
+        if (!this.length) {
+            return [];
+        }
+        return [this.slice(0, n)].concat(this.slice(n).chunk(n));
+    };
 
     if (wsource.length == 0) {
         //$("#wait").hide();
@@ -123,8 +130,40 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
 console.log(ObjItemSerie);
 
     $("#result").val(JSON.stringify(ObjItemSerie));
+    $(".grouper").show();
     $(".Qnb").html("Number of questions found : " + (codeItem - 1));
     $(".itemDescription").html("Number of right answers found : " + itAnsChecker.length)
 
-    return createRootDir(rootDir, codeItem, ObjItemSerie)
+    
+    var pageSet = ObjItemSerie; 
+    $("#itemPerPage").on("change",function(){
+        var pageNumb = (codeItem - 1)/ $(this).val();
+        var resteQ = (codeItem - 1) % $(this).val();
+        if ($(this).val() == 1){
+            $("#RGroup").html("Each page will have one question.") 
+            pageSet=ObjItemSerie.chunk($(this).val());
+        }
+        else if ($(this).val() == 0) { $("#RGroup").html("❌ No page is an impossible data!")  }
+        else if ($(this).val() > codeItem - 1) { $("#RGroup").html("💥 Attention Empty screen(s) ! Too much pages for the number of questions")}
+        else{
+            if(resteQ == 0){
+               $("#RGroup").html(Math.trunc(pageNumb) + " page(s).");
+               pageSet=ObjItemSerie.chunk($(this).val());
+            }else{
+               $("#RGroup").html((Math.trunc(pageNumb)+1) + " pages with " + resteQ + " on the last page.")
+                pageSet=ObjItemSerie.chunk($(this).val());
+            }
+           
+        }
+        console.log(pageSet);
+    });
+
+    $(".tempoTest").on("click", function(){
+        //This is a new function attached to Array ->
+        return createRootDir(rootDir, codeItem, pageSet)
+    })
+
+   
+
+   
 }

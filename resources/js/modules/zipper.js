@@ -1,7 +1,7 @@
 import $ from "jquery";
 import cleanAll from "./cleanAll";
 
-export default function zipper(codeItem, rootDir, ObjItemSerie) {
+export default function zipper(rootDir) {
     console.log("From Zipper")
     $("#wait").show();
     

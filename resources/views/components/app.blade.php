@@ -61,17 +61,11 @@
                         </div>
                     </div>
                 </div>
-                <div hidden class="row mb-2">
-                    <div class="col-2">
-                       <label for="itemGroup">Question(s) per page</label>
-                        <input type="number" class="form-control" id="itemPerPage" placeholder="1" value="1">
-                    </div>
-                </div>
             </div>
             <div class="waitdiv"><img id="wait" src="img/wait.gif" alt="wait logo" width="50px" style="display:none">
             </div>
         </div>
-        <div class="col">
+        <div class="col" style="font-size: 0.9em">
             <p>Welcome to the Word -> QTI converter for Choice interaction (single or multichoice). This converter
                 generates an item zip
                 package for the <a target="_blank" href="https://www.taotesting.com/fr/">TAO platform</a>, or any
@@ -79,14 +73,12 @@
             <p>
                 Your word document must respect a simple format. <span title="click to expand Model"
                     class="checkFormat">Check the format</span>, modify your document and then paste your work in the
-                text area. Please stay under 100 questions in a row.
+                text area.<br>
                 <a href="https://www.wiquid.fr/projects/w2qti/cmod.docx">You can download here a Word.docx modele to
                     help you.</a>
+                <br>Please because of TAO import limitation, stay under 100 items in a package. Choose to roll over errors and messages in TAO
+                import options. If you have any problems with TAO import, reduce the number of items in a package.
             </p>
-
-            
-
-
         </div>
     </div>
 
@@ -103,9 +95,24 @@
                 <li>Choose your options</li>
                 <li>Copy/paste your item respecting the format</li>
                 <li><button type="button" class="btn btn-primary launcher">Convert to QTI</button><span
-                        id="convertDone">✔️</span></li>
+                        id="convertDone">✔️</span>
+                    <div class="grouper">
+                        <div class="Qnb"></div>
+                        How many questions per page ?
+                        <div class="row mb-2">
+                            <div class="col-2">
+                                <input type="number" class="form-control" id="itemPerPage" placeholder="1" value="1">
+                            </div>
+                            <div class="col-5">
+                                <span id="RGroup"></span>
+                                <a class="btn btn-warning btn-sm tempoTest" href="#" role="button"> TempoTest</a>
+                            </div>
+                        </div>
+                    </div>
+                    </li>
+
                 <li id="zipli"><button id="zipper" disabled="disabled" type="button"
-                        class="btn btn-secondary packager">Create and Download your Package</button><span
+                        class="btn btn-success packager">Create and Download your Package</button><span
                         id="downloadDone">✔️</span></li>
                 <li hidden> <button id="zipDownloader" disabled="disabled" type="button"
                         class="btn btn-danger downloader">Download your Package</li>

@@ -1,32 +1,18 @@
 import $ from "jquery";
 import FusionManifestElement from "./FusionManifestElement";
 
-export default function createQTIXML(codeItem, rootDir, pageSet) {
+export default function createQTIXML(codeItem, rootDir, ObjItemSerie) {
     
     var shuffleChoice = $("#shuffleChoice").prop("checked");
     var timeDep = $("#timeDep").prop("checked");
     var orientation = $("#orientation").val();
-
-    var ResponseDeclaration="";
     
 
-    console.log(pageSet)
-    for (let i = 0; i < pageSet.length; i++) {
-        itemSetInPage(pageSet[i]);
-        break
-        
-    }
-    
 
-function itemSetInPage(itemSet){
-    console.log(itemSet)
-
-    for (let i = 0; i < itemSet.length; i++) {
-        console.log(i)
+    for (var i = 0; i < ObjItemSerie.length; i++) {
         var Qindex = "Q" + (i + 1);
-        console.log(itemSet[i]);
-        var shortQ = Object.keys(itemSet[i][Qindex])[0].substring(0, 20);
-        var ans =  itemSet[i][Qindex].Ans;
+        var shortQ = Object.keys(ObjItemSerie[i][Qindex])[0].substring(0, 20);
+        var ans =  ObjItemSerie[i][Qindex].Ans;
         var maxChoices=0;
         var QTIXML_Header =
             '<?xml version="1.0" encoding="UTF-8"?>' +
@@ -53,7 +39,7 @@ function itemSetInPage(itemSet){
                 RespDec =
                     '<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">' +
                     '<correctResponse>' +
-                    '<value><![CDATA[choice_' + itemSet[i][Qindex].Ans + ']]></value>' +
+                    '<value><![CDATA[choice_' + ObjItemSerie[i][Qindex].Ans + ']]></value>' +
                     '</correctResponse>';
                 maxChoices = 1;
             }
@@ -61,14 +47,14 @@ function itemSetInPage(itemSet){
             return RespDec;
         }    
 
-        ResponseDeclaration = ResponseDeclarationBuilder(ans) +'</responseDeclaration>' + ResponseDeclaration;
+        var ResponseDeclaration =  ResponseDeclarationBuilder(ans)
 
-        var Intitulex = Object.keys(itemSet[i][Qindex])[0]; // Item intitulé
-        var AnswerNb = itemSet[i][Qindex][Intitulex].length + 1;
+        var Intitulex = Object.keys(ObjItemSerie[i][Qindex])[0]; // Item intitulé
+        var AnswerNb = ObjItemSerie[i][Qindex][Intitulex].length + 1;
         var mapline;
         var maplineSet = "";
 
-        var bodyQTI = 
+        var bodyQTI = '</responseDeclaration>' +
             '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1"/>' +
             '<outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">' +
             '<defaultValue>' +
@@ -83,7 +69,7 @@ function itemSetInPage(itemSet){
         var ansLine;
         var ansSet = '';
         for (var y = 1; y < AnswerNb; y++) {
-            ansLine = '<simpleChoice identifier="choice_' + y + '" fixed="false" showHide="show">' + itemSet[i][Qindex][Intitulex][y - 1] + '</simpleChoice>';
+            ansLine = '<simpleChoice identifier="choice_' + y + '" fixed="false" showHide="show">' + ObjItemSerie[i][Qindex][Intitulex][y - 1] + '</simpleChoice>';
             ansSet = ansSet + ansLine;
         }
         var qtiFooter = ' </choiceInteraction></div></div></itemBody><responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/></assessmentItem>';
@@ -102,12 +88,12 @@ function itemSetInPage(itemSet){
             data: ({ name: Qindex, data: totalQti, dirname: rootDir }),
             url: 'writeQTIContent',
             success: function (data) {
-                FusionManifestElement(codeItem, rootDir, itemSet);
+                FusionManifestElement(codeItem, rootDir, ObjItemSerie);
                
             }
         });
 
 
-    }}
+    }
 
 }

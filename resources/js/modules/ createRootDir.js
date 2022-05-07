@@ -1,7 +1,7 @@
 import $ from "jquery";
 import createDirs from "./createDirs";
 import zipper from "./zipper";
-import cleanAll from "./cleanAll";
+//import cleanAll from "./cleanAll";
 
 export default function createRootDir(rootDir, codeItem, ObjItemSerie) {
    rootDir = "rootPackage_" + Date.now();
@@ -18,7 +18,7 @@ export default function createRootDir(rootDir, codeItem, ObjItemSerie) {
             $("#wait").show();
            createDirs(codeItem, rootDir, ObjItemSerie)
             $("#zipper").on("click", function () {
-                zipper(codeItem, rootDir, ObjItemSerie);
+                zipper(rootDir);
             })
             $(".cleaner").on("click", function () {
                 //cleanAll(codeItem, rootDir, ObjItemSerie);
