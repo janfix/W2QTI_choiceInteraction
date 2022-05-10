@@ -11,18 +11,8 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
   
 
     var ResponseDeclaration = "";
-
-    //console.log(pagesSet.length)
-    //console.log(pagesSet)
     var CumulIndex = 0;
     var AllQindex = "";
-   
-
-    
-
-
-   
-
 
     for (let i = 0; i < pagesSet.length; i++) {
         
@@ -33,9 +23,6 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
         ResponseDeclaration = "";// Reset after a pageset is done
     }
    
-    //console.log(totalQti)
-
-
     function itemSetInPage(itemSet, Posi) {
         //console.log(itemSet)
         //console.log(itemSet.length)
@@ -62,6 +49,7 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
             var shortQ2 = itemSet[i].Q;
             var shortQ = JSON.stringify(shortQ2).substring(2, 25)
             var ans = itemSet[i].Ans;
+            console.log(ans)
             var maxChoices = 0;
             var RESPONSE = "RESPONSE_" + i;
             var QTIXML_Header =
@@ -76,8 +64,8 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
                 if (ansLength > 1) {
                     console.log("CK-MULTI")
                     for (let y = 0; y < ans.length; y++) {
-                        ans[y];
-                        corrRespValue = '<value><![CDATA[choice_' + ans[y] + ']]></value>' + corrRespValue
+                        console.log(ans[y]);
+                        corrRespValue = '<value><![CDATA[choice_' + (ans[y]-1) + ']]></value>' + corrRespValue
 
                     }
                     RespDec = '<responseDeclaration identifier="' + RESPONSE + '" cardinality="multiple" baseType="identifier"><correctResponse >' + corrRespValue + '</correctResponse>';
@@ -89,7 +77,7 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
                     RespDec =
                         '<responseDeclaration identifier="' + RESPONSE + '" cardinality="single" baseType="identifier">' +
                         '<correctResponse>' +
-                        '<value><![CDATA[choice_' + itemSet[i].Ans + ']]></value>' +
+                        '<value><![CDATA[choice_' + (itemSet[i].Ans-1) + ']]></value>' +
                         '</correctResponse>';
                     maxChoices = 1;
                 }

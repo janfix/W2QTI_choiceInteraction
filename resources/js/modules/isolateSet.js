@@ -46,7 +46,7 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
         // Début de Set
         if (sourceLine[i].charAt(0) > 0) {
             console.log("GetLine1");
-            question = sourceLine[i].split(". ");
+            question = sourceLine[i].split("_ ");
             console.log(question[1])
             question[1] = question[1].replace("'", "\'");
             question[1] = question[1].replace('"', '\`');
@@ -56,7 +56,7 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
             item = '{"Q":[' + codeItem + '], "Question" : ["' + question[1] + '"], "Response": [';
             //item = 'Q' + codeItem + '": {"Question":[' + question[1];
             codeItem = codeItem + 1; 
-            console.log(item);
+            
         }
 
         function onlySpaces(str) {
@@ -69,7 +69,7 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
         }
 
         if (sourceLine[i] != '' && !(sourceLine[i].charAt(0) > 0)) {
-            response = sourceLine[i].split(". ");
+            response = sourceLine[i].split("_ ");
             console.log(response)
             response[1] = response[1].replace("'", "\'");
             response[1] = response[1].replace('"', '\`');
@@ -81,6 +81,7 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
                 response[1] = response[1].slice(0, -1);
                 goodAnswer.push('"' + response[1] + '"');
                 itAnsChecker.push(response[1]);
+                console.log(goodAnswer)
             }
             itemAnswer.push('"' + response[1] + '"'); //Contains all Answers of all Questions
         }
@@ -168,6 +169,8 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
 
     $(".tempoTest").on("click", function(e){
         e.preventDefault();
+
+        console.log(pageSet)
        
         createRootDir(rootDirActive, pageSet.length, pageSet, codeItem);   
         //This is a new function attached to Array ->
