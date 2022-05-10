@@ -3,7 +3,7 @@ import zipper from "./zipper";
 import createDirs from "./createDirs";
 //import cleanAll from "./cleanAll";
 
-export default function createRootDir(rootDir, pages, pagesSet) {
+export default function createRootDir(rootDir, NBpages, pagesSet, codeItem) {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -16,7 +16,7 @@ export default function createRootDir(rootDir, pages, pagesSet) {
         success: function (data) {
             $("#wait").show();
             console.log(rootDir);
-            createDirs(rootDir, pages, pagesSet);
+            createDirs(rootDir, NBpages, pagesSet, codeItem);
             
             $("#zipper").on("click", function () {
                 zipper(rootDir);

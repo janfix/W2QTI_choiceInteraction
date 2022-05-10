@@ -1,5 +1,5 @@
 import $ from "jquery";
-import createQTIXML from "./createQTIXML";
+
 import createRootDir from "./createRootDir";
 
 
@@ -138,6 +138,7 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
 
     
     var pageSet = ObjItemSerie; 
+    
     $("#itemPerPage").on("change",function(){
         
         var pageNumb = (codeItem - 1)/ $(this).val();
@@ -150,10 +151,10 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
         else if ($(this).val() > codeItem - 1) { $("#RGroup").html("💥 Attention Empty screen(s) ! Too much pages for the number of questions")}
         else{
             if(resteQ == 0){
-               $("#RGroup").html(Math.trunc(pageNumb) + " page(s).");
+               $("#RGroup").html("📑 "+Math.trunc(pageNumb) + " page(s).");
                pageSet=ObjItemSerie.chunk($(this).val());
             }else{
-               $("#RGroup").html((Math.trunc(pageNumb)+1) + " pages with " + resteQ + " on the last page.")
+               $("#RGroup").html(("📑 "+ (Math.trunc(pageNumb)+1)) + " pages with " + resteQ + " question(s) on the last page.")
                 pageSet=ObjItemSerie.chunk($(this).val());
             }  
         }
@@ -161,14 +162,16 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
 
     //FOLDER STRUCTURE TO BUILD
     var rootDirActive = "rootPackage_" + Date.now();
-    createRootDir(rootDirActive, pageSet.length, pageSet);
-    //createDirs(rootDirActive, pagesSet.length, pagesSet);
+    
+    
+    
 
     $(".tempoTest").on("click", function(e){
         e.preventDefault();
        
+        createRootDir(rootDirActive, pageSet.length, pageSet, codeItem);   
         //This is a new function attached to Array ->
-        createQTIXML(codeItem, pageSet, rootDirActive)
+       
     })
 
    

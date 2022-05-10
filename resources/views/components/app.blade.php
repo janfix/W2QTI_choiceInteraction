@@ -105,7 +105,7 @@
                             </div>
                             <div class="col-5">
                                 <span id="RGroup"></span>
-                                <a class="btn btn-warning btn-sm tempoTest" href="#" role="button"> Create your package</a>
+                                <a class="btn btn-warning btn-sm tempoTest" href="#" role="button"> Create your package</a><span id="createPack"> ✔️</span>
                             </div>
                         </div>
                     </div>

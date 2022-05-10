@@ -1,8 +1,9 @@
 import $ from "jquery";
+import createQTIXML from "./createQTIXML";
 
 
-export default function createDirs(rootDir, codeItem, pagesSet) {
-    codeItem = codeItem+1; // Avoid a Q0
+export default function createDirs(rootDir, NBpages, pagesSet, codeItem) {
+    NBpages = NBpages+1;
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -10,11 +11,12 @@ export default function createDirs(rootDir, codeItem, pagesSet) {
     });
     $.ajax({
         type: "POST",
-        data: ({ data: codeItem, dirname: rootDir, pagesSet }),
+        data: ({ data: NBpages, dirname: rootDir, pagesSet }),
         url: 'createDirs',
         success: function (data) {
-            console.log(codeItem);
+            console.log(NBpages);
             console.log('Directory created')
+            createQTIXML(codeItem, pagesSet, rootDir)
         }
-    });
+    }); 
 }

@@ -163,7 +163,8 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
             url: 'writeQTIContent',
             success: function (data) {
                 //console.log(data);
-                FusionManifestElement(pagesSet.length, rootDirActive, pagesSet.length)
+                FusionManifestElement(pagesSet.length, rootDirActive, pagesSet.length);
+                $("#createPack").show();
 
             }
         });
