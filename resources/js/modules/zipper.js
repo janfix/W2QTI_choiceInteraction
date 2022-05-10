@@ -2,7 +2,7 @@ import $ from "jquery";
 import cleanAll from "./cleanAll";
 
 export default function zipper(rootDir) {
-    console.log("From Zipper")
+    //console.log("From Zipper")
     $("#wait").show();
     
     $.ajaxSetup({
@@ -16,14 +16,15 @@ export default function zipper(rootDir) {
         data: ({ dirname: rootDir }),
         url: 'qtizipper',
         success: function (data) {
-            window.open(document.URL + data);
+            console.log(data)
+           window.open(document.URL + data);
             setTimeout(() => {
                 $("#wait").hide();
                 $("#zipper").prop("disabled", true);
                 $(".cleaner").prop("disabled", false);
                 $("#downloadDone").show();
                 cleanAll(rootDir, data);
-            }, 5000);
+            }, 3000);
         }
     });
 

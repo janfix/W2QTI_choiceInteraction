@@ -4,7 +4,8 @@
 3. Cela définit le nombre de traitement
     Par exemple 100 choicesInteraction - 3 items = I1 33, I2 33, I3 34
 
-    Le response identifier doit correspondre entre le responseDeclaration et le gridRowChoice
+    Le response identifier doit correspondre entre le responseDeclaration 
+    et le gridRowChoice
 
     Je dois construire le responseDeclaration pour chacun des 3 items
 

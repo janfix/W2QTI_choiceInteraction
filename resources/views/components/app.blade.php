@@ -105,14 +105,14 @@
                             </div>
                             <div class="col-5">
                                 <span id="RGroup"></span>
-                                <a class="btn btn-warning btn-sm tempoTest" href="#" role="button"> TempoTest</a>
+                                <a class="btn btn-warning btn-sm tempoTest" href="#" role="button"> Create your package</a>
                             </div>
                         </div>
                     </div>
                     </li>
 
                 <li id="zipli"><button id="zipper" disabled="disabled" type="button"
-                        class="btn btn-success packager">Create and Download your Package</button><span
+                        class="btn btn-success packager">Download your Package</button><span
                         id="downloadDone">✔️</span></li>
                 <li hidden> <button id="zipDownloader" disabled="disabled" type="button"
                         class="btn btn-danger downloader">Download your Package</li>
