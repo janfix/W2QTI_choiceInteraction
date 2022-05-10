@@ -23,7 +23,7 @@ export default function createQTIXML(codeItem, pagesSet) {
     //FOLDER STRUCTURE TO BUILD
     var rootDirActive = "rootPackage_" + Date.now();
     createRootDir(rootDirActive, pagesSet.length, pagesSet);
-    createDirs(rootDirActive, pagesSet.length, pagesSet);
+    //createDirs(rootDirActive, pagesSet.length, pagesSet);
 
 
    
