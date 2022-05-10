@@ -1,5 +1,6 @@
 import $ from "jquery";
 import createQTIXML from "./createQTIXML";
+import createRootDir from "./createRootDir";
 
 
 export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
@@ -158,11 +159,16 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
         }
     });
 
+    //FOLDER STRUCTURE TO BUILD
+    var rootDirActive = "rootPackage_" + Date.now();
+    createRootDir(rootDirActive, pageSet.length, pageSet);
+    //createDirs(rootDirActive, pagesSet.length, pagesSet);
+
     $(".tempoTest").on("click", function(e){
         e.preventDefault();
        
         //This is a new function attached to Array ->
-       createQTIXML(codeItem, pageSet)
+        createQTIXML(codeItem, pageSet, rootDirActive)
     })
 
    

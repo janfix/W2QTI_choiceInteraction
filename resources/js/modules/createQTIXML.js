@@ -1,9 +1,7 @@
 import $ from "jquery";
-import createDirs from "./createDirs";
-import createRootDir from "./createRootDir";
 import FusionManifestElement from "./FusionManifestElement";
 
-export default function createQTIXML(codeItem, pagesSet) {
+export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
 
     var shuffleChoice = $("#shuffleChoice").prop("checked");
     var timeDep = $("#timeDep").prop("checked");
@@ -20,10 +18,7 @@ export default function createQTIXML(codeItem, pagesSet) {
     var AllQindex = "";
    
 
-    //FOLDER STRUCTURE TO BUILD
-    var rootDirActive = "rootPackage_" + Date.now();
-    createRootDir(rootDirActive, pagesSet.length, pagesSet);
-    //createDirs(rootDirActive, pagesSet.length, pagesSet);
+    
 
 
    
