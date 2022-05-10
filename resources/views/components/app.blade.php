@@ -34,7 +34,7 @@
     <div class="row">
         <div class="col">
             <div class="formoption">
-                <h3>Choose your options</h3>
+                <h3>1.Choose your options</h3>
                 <!-- <p>Your choice can be modified in TAO editor for each item. As it is a batch treatment choose here the most frequent options.</p>  -->
                 <div class="row mb-3">
                     <div class="col-3">
@@ -86,14 +86,13 @@
 
     <div class="row">
         <div class="col">
+            <h3>2.Paste your items below</h3>
             <textarea name="wsource" id="wsource" class="wsource" cols="80" rows="30"
                 placeholder="Paste here your word document"></textarea>
         </div>
         <div class="col">
-            <h3>Build your package step by step</h3>
+            <h3>3.Convert and download your item package</h3>
             <ol>
-                <li>Choose your options</li>
-                <li>Copy/paste your item respecting the format</li>
                 <li><button type="button" class="btn btn-primary launcher">Convert to QTI</button><span
                         id="convertDone">✔️</span>
                     <div class="grouper">
