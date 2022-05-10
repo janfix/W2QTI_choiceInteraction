@@ -127,7 +127,7 @@ export default function createQTIXML(codeItem, pagesSet) {
 
 
             function answerSet() {
-                console.log("CALL ANSWERSET")
+                //console.log("CALL ANSWERSET")
                 var realQuestion = '<prompt><h1>' + Intitulex + '</h1></prompt>';
                 var ansLine;
                 ansSet = '';
@@ -167,7 +167,7 @@ export default function createQTIXML(codeItem, pagesSet) {
             data: ({ content: totalQti, page: "Q" + Posi, dirname: rootDirActive }),
             url: 'writeQTIContent',
             success: function (data) {
-                console.log(data);
+                //console.log(data);
                 FusionManifestElement(pagesSet.length, rootDirActive, pagesSet.length)
 
             }

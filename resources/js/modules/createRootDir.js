@@ -15,14 +15,11 @@ export default function createRootDir(rootDir, pages, pagesSet) {
         data: ({ dirname: rootDir }),
         success: function (data) {
             $("#wait").show();
-            console.log(rootDir)
+            console.log(rootDir);
+            createDirs(rootDir, pages, pagesSet);
             
             $("#zipper").on("click", function () {
                 zipper(rootDir);
-            })
-            $(".cleaner").on("click", function () {
-                //cleanAll(codeItem, rootDir, ObjItemSerie);
-                //cleanAll(rootDir,data);
             })
         }
     });
