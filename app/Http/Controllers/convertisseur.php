@@ -12,8 +12,9 @@ class convertisseur extends Controller
        
     public function createRootDir(Request $request)
     {
-       //echo 'problem ?';
+       
        $dirname = $request->dirname;
+       echo $dirname;
        mkdir($dirname, 0777, true);
     }
 
@@ -37,12 +38,19 @@ class convertisseur extends Controller
 
      public function writeQTIContent(Request $request)
     {   
-        $data = $request->data;
-        $QTI_id = $request->name;
+         
+        $content = $request->content;
+        $Page = $request->page;
+        echo $Page;
+        echo $content;
         $dirname = $request->dirname;
-        $qtiContent = fopen($dirname."/".$QTI_id."/qti.xml", "w");
-        fwrite($qtiContent,$data);
-        fclose($qtiContent);
+        $qtiContent = fopen($dirname."/".$Page."/qti.xml", "w");
+        fwrite($qtiContent,$content);
+        fclose($qtiContent); 
+       
+        
+       
+       
     }
 
     public function qtizipper(Request $request)

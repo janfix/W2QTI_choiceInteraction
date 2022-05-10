@@ -1,8 +1,9 @@
 import $ from "jquery";
-import createRootDir from "./ createRootDir";
+import createQTIXML from "./createQTIXML";
 
 
 export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
+    
     var wsource = $(".wsource").val();
     var sourceLine = wsource.split("\n");
     var response = [];
@@ -10,7 +11,6 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
     var item = {};
     var itemAnswer = [];
     var goodAnswer = [];
-    var rootDir;
     var itAnsChecker = [];
 
 
@@ -50,9 +50,12 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
             question[1] = question[1].replace("'", "\'");
             question[1] = question[1].replace('"', '\`');
             //console.log(question[1])
-            item = 'Q' + codeItem + '": {"' + question[1] + '":[';
-            codeItem = codeItem + 1;
-            //console.log(item);
+            //item = 'Q' + codeItem + '": {"Question" : ["' + question[1] + '"]}, "Response": [';
+           
+            item = '{"Q":[' + codeItem + '], "Question" : ["' + question[1] + '"], "Response": [';
+            //item = 'Q' + codeItem + '": {"Question":[' + question[1];
+            codeItem = codeItem + 1; 
+            console.log(item);
         }
 
         function onlySpaces(str) {
@@ -97,7 +100,7 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
                 } 
             }
 
-            item = ',{"' + item + itemAnswer + '],"Ans" : [' + goodAnswer + ']}}';
+            item = ',' + item + itemAnswer + '],"Ans" : [' + goodAnswer + ']}';
             //console.log(item);
 
             itemSerie = itemSerie + item;
@@ -118,7 +121,7 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
     itemSerie = itemSerie.substring(1);
     
     itemSerie = "[" + itemSerie + "]";
-    console.log(itemSerie);
+    //console.log(itemSerie);
 
     try {
         ObjItemSerie = JSON.parse(itemSerie);
@@ -126,8 +129,6 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
         //console.log(error)
         $(".errormessage").html("<b><ul><li style='color:red'>ERROR</li><li>Check all your * : CTRL+F and search *+space(s) (one or more), the * must be the last character of your line.</li><li>Verify if you have just one empty line at the end of your text</li><li>After the Number/Letter you must have a point and 1 space</li></u></b>  1️⃣ Clean your text, 2️⃣ copy it, 3️⃣ reload the page and 4️⃣ paste! 5️⃣ Think to clean also your word file.");
     }
-
-console.log(ObjItemSerie);
 
     $("#result").val(JSON.stringify(ObjItemSerie));
     $(".grouper").show();
@@ -137,6 +138,7 @@ console.log(ObjItemSerie);
     
     var pageSet = ObjItemSerie; 
     $("#itemPerPage").on("change",function(){
+        
         var pageNumb = (codeItem - 1)/ $(this).val();
         var resteQ = (codeItem - 1) % $(this).val();
         if ($(this).val() == 1){
@@ -152,15 +154,14 @@ console.log(ObjItemSerie);
             }else{
                $("#RGroup").html((Math.trunc(pageNumb)+1) + " pages with " + resteQ + " on the last page.")
                 pageSet=ObjItemSerie.chunk($(this).val());
-            }
-           
+            }  
         }
-        console.log(pageSet);
     });
 
-    $(".tempoTest").on("click", function(){
+    $(".tempoTest").on("click", function(e){
+        e.preventDefault();
         //This is a new function attached to Array ->
-        return createRootDir(rootDir, codeItem, pageSet)
+       createQTIXML(codeItem, pageSet)
     })
 
    

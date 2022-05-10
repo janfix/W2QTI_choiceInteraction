@@ -1,95 +1,160 @@
 import $ from "jquery";
+import createDirs from "./createDirs";
+import createRootDir from "./createRootDir";
 import FusionManifestElement from "./FusionManifestElement";
 
-export default function createQTIXML(codeItem, rootDir, pageSet) {
-    
+export default function createQTIXML(codeItem, pagesSet) {
+
     var shuffleChoice = $("#shuffleChoice").prop("checked");
     var timeDep = $("#timeDep").prop("checked");
     var orientation = $("#orientation").val();
+    var totalQti;
+    var ansSet;
+  
 
-    var ResponseDeclaration="";
-    
+    var ResponseDeclaration = "";
 
-    console.log(pageSet)
-    for (let i = 0; i < pageSet.length; i++) {
-        itemSetInPage(pageSet[i]);
-        break
+    //console.log(pagesSet.length)
+    //console.log(pagesSet)
+    var CumulIndex = 0;
+    var AllQindex = "";
+   
+
+    //FOLDER STRUCTURE TO BUILD
+    var rootDirActive = "rootPackage_" + Date.now();
+    createRootDir(rootDirActive, pagesSet.length, pagesSet);
+    createDirs(rootDirActive, pagesSet.length, pagesSet);
+
+
+   
+
+
+    for (let i = 0; i < pagesSet.length; i++) {
         
-    }
-    
-
-function itemSetInPage(itemSet){
-    console.log(itemSet)
-
-    for (let i = 0; i < itemSet.length; i++) {
-        console.log(i)
-        var Qindex = "Q" + (i + 1);
-        console.log(itemSet[i]);
-        var shortQ = Object.keys(itemSet[i][Qindex])[0].substring(0, 20);
-        var ans =  itemSet[i][Qindex].Ans;
-        var maxChoices=0;
-        var QTIXML_Header =
-            '<?xml version="1.0" encoding="UTF-8"?>' +
-            '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="' + Qindex + '"' +
-            ' title="' + Qindex + '-' + shortQ + '" label="' + Qindex + '" xml:lang="en-US" adaptive="false" timeDependent="' + timeDep +'" toolName="TAO" toolVersion="3.2.0-RC2">';
+        itemSetInPage(pagesSet[i], (i+1)); // PAGE PER
        
-        
-        function ResponseDeclarationBuilder(ans){
-            var ansLength = ans.length;
-            var RespDec, corrRespValue="";
-            if (ansLength >1){
-                console.log("CK-MULTI")
-                for (let y = 0; y < ans.length; y++) {
-                    ans[y];
-                    corrRespValue = '<value><![CDATA[choice_' + ans[y] + ']]></value>' + corrRespValue
-                    
+        console.log("---------------------------")
+        AllQindex = ""; // Reset after a pageset is done
+        ResponseDeclaration = "";// Reset after a pageset is done
+    }
+   
+    //console.log(totalQti)
+
+
+    function itemSetInPage(itemSet, Posi) {
+        //console.log(itemSet)
+        //console.log(itemSet.length)
+       
+        var Qindex = "";
+        var allSets = "";
+        var itemNB = itemSet.length;
+        //console.log(itemNB);
+        for (let i = 0; i < itemSet.length; i++) {
+            //Item Level
+            CumulIndex = CumulIndex + 1;
+            Qindex = "Q" + CumulIndex;
+            //console.log(Qindex);
+            //console.log(itemSet[i]);
+            /* 
+            console.log(CumulIndex)
+           
+            console.log(i);
+            console.log(typeof itemSet[i])
+            console.log(itemSet[i][Qindex]);
+            console.log(itemSet[i][Qindex].Ans); */
+
+            AllQindex = AllQindex + Qindex;
+            var shortQ2 = itemSet[i].Q;
+            var shortQ = JSON.stringify(shortQ2).substring(2, 25)
+            var ans = itemSet[i].Ans;
+            var maxChoices = 0;
+            var RESPONSE = "RESPONSE_" + i;
+            var QTIXML_Header =
+                '<?xml version="1.0" encoding="UTF-8"?>' +
+                '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="' + AllQindex + '"' +
+                ' title="' + AllQindex + '" label="' + AllQindex + '" xml:lang="en-US" adaptive="false" timeDependent="' + timeDep + '" toolName="TAO" toolVersion="3.2.0-RC2">';
+
+
+            function ResponseDeclarationBuilder(ans) {
+                var ansLength = ans.length;
+                var RespDec, corrRespValue = "";
+                if (ansLength > 1) {
+                    console.log("CK-MULTI")
+                    for (let y = 0; y < ans.length; y++) {
+                        ans[y];
+                        corrRespValue = '<value><![CDATA[choice_' + ans[y] + ']]></value>' + corrRespValue
+
+                    }
+                    RespDec = '<responseDeclaration identifier="' + RESPONSE + '" cardinality="multiple" baseType="identifier"><correctResponse >' + corrRespValue + '</correctResponse>';
+                    maxChoices = 0;
+
+
+                } else {
+                    console.log("Radio - Single")
+                    RespDec =
+                        '<responseDeclaration identifier="' + RESPONSE + '" cardinality="single" baseType="identifier">' +
+                        '<correctResponse>' +
+                        '<value><![CDATA[choice_' + itemSet[i].Ans + ']]></value>' +
+                        '</correctResponse>';
+                    maxChoices = 1;
                 }
-                RespDec = '<responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier"><correctResponse >' +corrRespValue + '</correctResponse>';
-                maxChoices = 0;
-
-
-            } else{
-                console.log("Radio - Single")
-                RespDec =
-                    '<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="identifier">' +
-                    '<correctResponse>' +
-                    '<value><![CDATA[choice_' + itemSet[i][Qindex].Ans + ']]></value>' +
-                    '</correctResponse>';
-                maxChoices = 1;
+                return RespDec;
             }
 
-            return RespDec;
-        }    
 
-        ResponseDeclaration = ResponseDeclarationBuilder(ans) +'</responseDeclaration>' + ResponseDeclaration;
+            ResponseDeclaration = ResponseDeclarationBuilder(ans) + '</responseDeclaration>' + ResponseDeclaration;
 
-        var Intitulex = Object.keys(itemSet[i][Qindex])[0]; // Item intitulé
-        var AnswerNb = itemSet[i][Qindex][Intitulex].length + 1;
-        var mapline;
-        var maplineSet = "";
 
-        var bodyQTI = 
-            '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1"/>' +
-            '<outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">' +
-            '<defaultValue>' +
-            '<value>1</value>' +
-            '</defaultValue>' +
-            '</outcomeDeclaration>' +
-            '<itemBody>' +
-            '<div class="grid-row">' +
-            '<div class="col-12">' +
-            '<choiceInteraction responseIdentifier="RESPONSE" shuffle="' + shuffleChoice + '" maxChoices="' + maxChoices + '" minChoices="0" orientation="' + orientation +'">';
-        var realQuestion = '<prompt><h1>' + Intitulex + '</h1></prompt>';
-        var ansLine;
-        var ansSet = '';
-        for (var y = 1; y < AnswerNb; y++) {
-            ansLine = '<simpleChoice identifier="choice_' + y + '" fixed="false" showHide="show">' + itemSet[i][Qindex][Intitulex][y - 1] + '</simpleChoice>';
-            ansSet = ansSet + ansLine;
+
+
+            var outcomeDeclaration =
+                '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="' + itemSet.length + '"/>' +
+                '<outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">' +
+                '<defaultValue>' +
+                '<value>' + itemSet.length + '</value>' +
+                '</defaultValue>' +
+                '</outcomeDeclaration>';
+
+
+
+            var Qset =
+                '<div class="grid-row">' +
+                '<div class="col-12">' +
+                '<choiceInteraction responseIdentifier="' + RESPONSE + '" shuffle="' + shuffleChoice + '" maxChoices="' + maxChoices + '" minChoices="0" orientation="' + orientation + '">';
+
+            var Intitulex = itemSet[i].Question; // Item intitulé
+            var AnswerNb = itemSet[i].Response.length;
+
+
+            function answerSet() {
+                console.log("CALL ANSWERSET")
+                var realQuestion = '<prompt><h1>' + Intitulex + '</h1></prompt>';
+                var ansLine;
+                ansSet = '';
+                for (var y = 0; y < AnswerNb; y++) {
+                    ansLine = '<simpleChoice identifier="choice_' + y + '" fixed="false" showHide="show">' + itemSet[i].Response[y] + '</simpleChoice>';
+                    ansSet = ansSet + ansLine;
+                }
+                ansSet = realQuestion + ansSet + "</choiceInteraction></div></div>";
+                //console.log(ansSet);
+                return ansSet;
+            }
+
+            allSets = allSets + Qset + answerSet();
+
         }
-        var qtiFooter = ' </choiceInteraction></div></div></itemBody><responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/></assessmentItem>';
-        var totalQti = QTIXML_Header + ResponseDeclaration + maplineSet + bodyQTI + realQuestion + ansSet + qtiFooter;
-        maplineSet = "";
-        ansSet = "";
+
+        //LEVEL : itemSet
+        /* console.log(QTIXML_Header)
+        console.log(ResponseDeclaration);
+        console.log(outcomeDeclaration) */
+        var qtiFooter = '</itemBody><responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/></assessmentItem>';
+        var bodyQTI = '<itemBody>' + allSets + qtiFooter;
+
+        // PERFECTLY FORMATED PAGE FOR 1 ITEM THAT CONTAINS MANY QUESTIONS
+        totalQti = QTIXML_Header + ResponseDeclaration + outcomeDeclaration + bodyQTI;
+
+
 
         $.ajaxSetup({
             headers: {
@@ -99,15 +164,27 @@ function itemSetInPage(itemSet){
 
         $.ajax({
             type: "POST",
-            data: ({ name: Qindex, data: totalQti, dirname: rootDir }),
+            data: ({ content: totalQti, page: "Q" + Posi, dirname: rootDirActive }),
             url: 'writeQTIContent',
             success: function (data) {
-                FusionManifestElement(codeItem, rootDir, itemSet);
-               
+                console.log(data);
+                FusionManifestElement(pagesSet.length, rootDirActive, pagesSet.length)
+
             }
         });
 
 
-    }}
 
+    }// end of itemSetInPage
 }
+
+
+/* LEVELS DEFINITION
+
+Package
+    Page
+     ITEMSet
+        Question
+            AnswerSet
+
+*/

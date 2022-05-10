@@ -1,7 +1,7 @@
 import $ from "jquery";
 import zipper from "./zipper";
 
-export default function FusionManifestElement(codeItem, rootDir, ObjItemSerie) {
+export default function FusionManifestElement(codeItem, rootDir, itemNB) {
     console.log("Fusion");
     var manifestHeader = '<?xml version="1.0"?><manifest xmlns="http://www.imsglobal.org/xsd/imscp_v1p1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imscp_v1p1 http://www.imsglobal.org/xsd/qti/qtiv2p2/qtiv2p2_imscpv1p2_v1p0.xsd" identifier="MANIFEST-tao5a50bb4d8d03b0-35882734"><metadata><schema>QTIv2.2 Package</schema><schemaversion>1.0.0</schemaversion></metadata><organizations/><resources>';
     var manifestRessource
@@ -9,9 +9,9 @@ export default function FusionManifestElement(codeItem, rootDir, ObjItemSerie) {
     var manifestFooter = ' </resources></manifest>';
     var manifest;
 
-    for (var i = 0; i < ObjItemSerie.length; i++) {
+    for (var i = 0; i < itemNB; i++) {
         var Qindex = "Q" + (i + 1);
-        if (i == ObjItemSerie.length - 1) {
+        if (i == itemNB) {
             console.log("last Set");
             manifestRessource =
                 '<resource identifier="' + Qindex + '" type="imsqti_item_xmlv2p2" href="' + Qindex + '/qti.xml">' +
