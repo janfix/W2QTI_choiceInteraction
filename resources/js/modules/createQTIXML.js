@@ -23,7 +23,11 @@ export default function createQTIXML(codeItem, pagesSet) {
     //FOLDER STRUCTURE TO BUILD
     var rootDirActive = "rootPackage_" + Date.now();
     createRootDir(rootDirActive, pagesSet.length, pagesSet);
+<<<<<<< HEAD
     createDirs(rootDirActive, pagesSet.length, pagesSet);
+=======
+    //createDirs(rootDirActive, pagesSet.length, pagesSet);
+>>>>>>> 74ff5d2b13e865c8c1e62726816075f311ee8446
 
 
    
@@ -127,7 +131,11 @@ export default function createQTIXML(codeItem, pagesSet) {
 
 
             function answerSet() {
+<<<<<<< HEAD
                 console.log("CALL ANSWERSET")
+=======
+                //console.log("CALL ANSWERSET")
+>>>>>>> 74ff5d2b13e865c8c1e62726816075f311ee8446
                 var realQuestion = '<prompt><h1>' + Intitulex + '</h1></prompt>';
                 var ansLine;
                 ansSet = '';
@@ -167,7 +175,11 @@ export default function createQTIXML(codeItem, pagesSet) {
             data: ({ content: totalQti, page: "Q" + Posi, dirname: rootDirActive }),
             url: 'writeQTIContent',
             success: function (data) {
+<<<<<<< HEAD
                 console.log(data);
+=======
+                //console.log(data);
+>>>>>>> 74ff5d2b13e865c8c1e62726816075f311ee8446
                 FusionManifestElement(pagesSet.length, rootDirActive, pagesSet.length)
 
             }

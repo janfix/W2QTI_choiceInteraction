@@ -160,6 +160,10 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
 
     $(".tempoTest").on("click", function(e){
         e.preventDefault();
+<<<<<<< HEAD
+=======
+       
+>>>>>>> 74ff5d2b13e865c8c1e62726816075f311ee8446
         //This is a new function attached to Array ->
        createQTIXML(codeItem, pageSet)
     })
