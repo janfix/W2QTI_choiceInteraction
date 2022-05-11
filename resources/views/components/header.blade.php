@@ -5,12 +5,21 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-md-7 py-4">
-                        <h4 class="text-white">About Word to QTI Converter</h4>
-                        <p class="text-muted">The most frequent interaction used in QTI is Choice, multiple choice or single choice. Many QTI users
+                        <h4 class="text-white">About Word to QTI Converter - version 1.3</h4>
+                        <p style="color:grey;">The most frequent interaction used in QTI is Choice, multiple choice or single choice. Many QTI users
                             asked me to find a way to quickly import their long word documents filled with choice
                             questions. Here is a solution. <br>This converter does not
                             save any data about your item on the server. No cookies and no information are stored.W2QTI is experimental. <b>Thank you to control the validity of your work</b>, Wiquid won't be responsable in any
-                            cases of errors in your item package.</p>
+                            cases of errors in your item package.
+                            This version adds :
+                                <ul style="color:grey;">
+                                    <li>Single choice and multichoice management</li>
+                                    <li>Automatic scoring encoded from Word document</li>
+                                    <li>Pagination choice for your questions : the possibility to gather your questions in one or many pages </li>
+                                    <li>Options : orientation, shuffle and time dependent</li>
+                                </ul></p>
+                            <p style="color:grey;">This version modify the word document format using _ (underscore) instead of a point.</p>
+                        
                     </div>
                     <div class="col-sm-4 offset-md-1 py-4">
                         <a target="_blank" href="https://www.wiquid.fr"><img width="300px" src="img/WiquidTiles.png"
