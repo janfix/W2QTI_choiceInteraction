@@ -92,3 +92,9 @@ display:none;
 #createPack{
     display: none;
 }
+
+#terms{
+    cursor: pointer;
+    color:blue;
+    text-decoration: underline;
+}

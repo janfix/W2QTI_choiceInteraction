@@ -1,9 +1,11 @@
 // You can specify which plugins you need
 import $ from "jquery";
 import isolateSet from './modules/isolateSet';
+import 'bootstrap';
 
-
-
+$("#terms").on("click", function (event) {
+    $('.navbar-toggler-icon').trigger('click');
+});
 
 $(".checkFormat").on("click", function (event) {
     $(".Wexample").slideToggle(400);

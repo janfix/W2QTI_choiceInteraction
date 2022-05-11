@@ -34,6 +34,7 @@
     <div class="row">
         <div class="col">
             <div class="formoption">
+                W2QTI is a Wiquid product. <span id="terms">Read here the terms of use.</span>
                 <h3>1.Choose your options</h3>
                 <!-- <p>Your choice can be modified in TAO editor for each item. As it is a batch treatment choose here the most frequent options.</p>  -->
                 <div class="row mb-3">
