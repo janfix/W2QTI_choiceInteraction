@@ -29,26 +29,24 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
        
         var Qindex = "";
         var allSets = "";
+        var ans;
         var itemNB = itemSet.length;
-        //console.log(itemNB);
-        for (let i = 0; i < itemSet.length; i++) {
+        if(typeof itemNB === "undefined"){
+            itemNB = 1;
+        }
+        for (let i = 1; i < (itemNB+1); i++) {
             //Item Level
             CumulIndex = CumulIndex + 1;
             Qindex = "Q" + CumulIndex;
-            //console.log(Qindex);
-            //console.log(itemSet[i]);
-            /* 
-            console.log(CumulIndex)
-           
-            console.log(i);
-            console.log(typeof itemSet[i])
-            console.log(itemSet[i][Qindex]);
-            console.log(itemSet[i][Qindex].Ans); */
 
             AllQindex = AllQindex + Qindex;
-            var shortQ2 = itemSet[i].Q;
-            var shortQ = JSON.stringify(shortQ2).substring(2, 25)
-            var ans = itemSet[i].Ans;
+            
+            if (Array.isArray(itemSet)){
+              ans = itemSet[i].Ans;
+            } else{
+              ans = itemSet.Ans  
+            }
+           
             console.log(ans)
             var maxChoices = 0;
             var RESPONSE = "RESPONSE_" + i;
@@ -74,12 +72,25 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
 
                 } else {
                     console.log("Radio - Single")
-                    RespDec =
-                        '<responseDeclaration identifier="' + RESPONSE + '" cardinality="single" baseType="identifier">' +
-                        '<correctResponse>' +
-                        '<value><![CDATA[choice_' + (itemSet[i].Ans-1) + ']]></value>' +
-                        '</correctResponse>';
-                    maxChoices = 1;
+
+                    if (Array.isArray(itemSet)){
+                        RespDec =
+                            '<responseDeclaration identifier="' + RESPONSE + '" cardinality="single" baseType="identifier">' +
+                            '<correctResponse>' +
+                            '<value><![CDATA[choice_' + (itemSet[i].Ans - 1) + ']]></value>' +
+                            '</correctResponse>';
+                        maxChoices = 1;
+                    }else{
+                        RespDec =
+                            '<responseDeclaration identifier="' + RESPONSE + '" cardinality="single" baseType="identifier">' +
+                            '<correctResponse>' +
+                            '<value><![CDATA[choice_' + (itemSet.Ans -1) + ']]></value>' +
+                            '</correctResponse>';
+                        maxChoices = 1;
+
+                    }
+
+                   
                 }
                 return RespDec;
             }
@@ -91,10 +102,10 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
 
 
             var outcomeDeclaration =
-                '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="' + itemSet.length + '"/>' +
+                '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="' + itemNB + '"/>' +
                 '<outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">' +
                 '<defaultValue>' +
-                '<value>' + itemSet.length + '</value>' +
+                '<value>' + itemNB + '</value>' +
                 '</defaultValue>' +
                 '</outcomeDeclaration>';
 
@@ -105,18 +116,32 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
                 '<div class="col-12">' +
                 '<choiceInteraction responseIdentifier="' + RESPONSE + '" shuffle="' + shuffleChoice + '" maxChoices="' + maxChoices + '" minChoices="0" orientation="' + orientation + '">';
 
-            var Intitulex = itemSet[i].Question; // Item intitulé
-            var AnswerNb = itemSet[i].Response.length;
+            var Intitulex,AnswerNb;
+            if (Array.isArray(itemSet)) {
+            Intitulex = itemSet[i].Question; // Item intitulé
+            AnswerNb = itemSet[i].Response.length;
+            }
+            else{
+                Intitulex = itemSet.Question; // Item intitulé
+                AnswerNb = itemSet.Response.length;
+            }
 
 
             function answerSet() {
                 //console.log("CALL ANSWERSET")
-                var realQuestion = '<prompt><h1>' + Intitulex + '</h1></prompt>';
+                var realQuestion = '<prompt>' + Intitulex + '</prompt>';
                 var ansLine;
                 ansSet = '';
-                for (var y = 0; y < AnswerNb; y++) {
-                    ansLine = '<simpleChoice identifier="choice_' + y + '" fixed="false" showHide="show">' + itemSet[i].Response[y] + '</simpleChoice>';
-                    ansSet = ansSet + ansLine;
+                if (Array.isArray(itemSet)) {
+                    for (var y = 0; y < AnswerNb; y++) {
+                        ansLine = '<simpleChoice identifier="choice_' + y + '" fixed="false" showHide="show">' + itemSet[i].Response[y] + '</simpleChoice>';
+                        ansSet = ansSet + ansLine;
+                    }
+                } else {
+                    for (var y = 0; y < AnswerNb; y++) {
+                        ansLine = '<simpleChoice identifier="choice_' + y + '" fixed="false" showHide="show">' + itemSet.Response[y] + '</simpleChoice>';
+                        ansSet = ansSet + ansLine;
+                    }
                 }
                 ansSet = realQuestion + ansSet + "</choiceInteraction></div></div>";
                 //console.log(ansSet);
