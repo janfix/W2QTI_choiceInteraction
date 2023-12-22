@@ -6,6 +6,9 @@ import createRootDir from "./createRootDir";
 export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
     
     var wsource = $(".wsource").val();
+    //Clean Double Quotes : 
+    wsource = wsource.replace(/"/g, "'");
+    
     var sourceLine = wsource.split("\n");
     var response = [];
     var question = [];
@@ -13,6 +16,8 @@ export default function isolateSet(codeItem, itemSerie, ObjItemSerie, rootDir) {
     var itemAnswer = [];
     var goodAnswer = [];
     var itAnsChecker = [];
+
+   
 
 
     Array.prototype.chunk = function (n) {
