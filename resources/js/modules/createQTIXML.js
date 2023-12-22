@@ -24,8 +24,8 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
     }
    
     function itemSetInPage(itemSet, Posi) {
-        //console.log(itemSet)
-        //console.log(itemSet.length)
+        console.log(itemSet)
+        console.log(itemSet.length)
        
         var Qindex = "";
         var allSets = "";
@@ -34,15 +34,15 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
         if(typeof itemNB === "undefined"){
             itemNB = 1;
         }
-        for (let i = 1; i < (itemNB+1); i++) {
+        for (let i = 0; i < (itemNB); i++) {
             //Item Level
             CumulIndex = CumulIndex + 1;
             Qindex = "Q" + CumulIndex;
 
             AllQindex = AllQindex + Qindex;
             
-            if (Array.isArray(itemSet)){
-              ans = itemSet[i].Ans;
+            if (typeof itemSet !== "undefined" && Array.isArray(itemSet)){    
+              ans = itemSet[i]?.Ans;
             } else{
               ans = itemSet.Ans  
             }
@@ -57,6 +57,7 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
 
 
             function ResponseDeclarationBuilder(ans) {
+                if(typeof ans === "undefined"){return}
                 var ansLength = ans.length;
                 var RespDec, corrRespValue = "";
                 if (ansLength > 1) {
@@ -117,13 +118,13 @@ export default function createQTIXML(codeItem, pagesSet, rootDirActive) {
                 '<choiceInteraction responseIdentifier="' + RESPONSE + '" shuffle="' + shuffleChoice + '" maxChoices="' + maxChoices + '" minChoices="0" orientation="' + orientation + '">';
 
             var Intitulex,AnswerNb;
-            if (Array.isArray(itemSet)) {
+            if (Array.isArray(itemSet) && typeof itemSet[i] !== "undefined" ) {
             Intitulex = itemSet[i].Question; // Item intitulé
             AnswerNb = itemSet[i].Response.length;
             }
             else{
                 Intitulex = itemSet.Question; // Item intitulé
-                AnswerNb = itemSet.Response.length;
+                AnswerNb = itemSet?.Response?.length;
             }
 
 
