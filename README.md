@@ -15,3 +15,98 @@ You can easely import to your assessment platform not only your items' content b
 The idea is to respect a very simple structure in a Word document. Modify your document and then paste your work in the text area. Please stay under 150 questions in a row. You can download <a href="https://www.wiquid.fr/projects/w2qti/cmod.docx" target="_blank" >here a Word.docx modele</a> to help you.
 
 This converter does not save any data about your item on the server. No cookies and no information are stored.
+
+---
+
+## Local Installation
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
+- Git
+
+No PHP, Composer, or Node.js installation required on the host machine.
+
+### Setup
+
+**1. Clone the repository**
+
+```bash
+git clone <repository-url>
+cd W2QTI_choiceInteraction
+```
+
+**2. Install PHP dependencies**
+
+Use a temporary Docker container to install Composer packages (no local PHP needed):
+
+```bash
+docker run --rm -u "$(id -u):$(id -g)" \
+  -v "$(pwd):/var/www/html" \
+  -w /var/www/html \
+  laravelsail/php81-composer:latest \
+  composer install --ignore-platform-reqs
+```
+
+**3. Create the environment file**
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and set `DB_CONNECTION=sqlite` (the app does not use a database, but Laravel requires a valid driver):
+
+```
+DB_CONNECTION=sqlite
+```
+
+**4. Generate the application key**
+
+```bash
+docker run --rm -v "$(pwd):/var/www/html" w2qti-app php artisan key:generate
+```
+
+> Note: run this after the first `docker compose build` step below, or use the pre-built image tag.
+
+### Running the App
+
+**Build the Docker image:**
+
+```bash
+docker compose build
+```
+
+**Start the container:**
+
+```bash
+docker compose up -d
+```
+
+**Generate the app key** (first run only):
+
+```bash
+docker exec w2qti_choiceinteraction-app-1 php artisan key:generate
+```
+
+**Fix storage permissions** (first run only, or after a fresh clone):
+
+```bash
+docker exec -u root w2qti_choiceinteraction-app-1 \
+  chmod -R 777 storage bootstrap/cache
+```
+
+**Open the app in your browser:**
+
+```
+http://localhost:8080
+```
+
+### Useful Commands
+
+| Action | Command |
+|---|---|
+| Start | `docker compose up -d` |
+| Stop | `docker compose down` |
+| View logs | `docker logs w2qti_choiceinteraction-app-1` |
+| Open a shell | `docker exec -it w2qti_choiceinteraction-app-1 bash` |
+| Rebuild image | `docker compose build --no-cache` |
