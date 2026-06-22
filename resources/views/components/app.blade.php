@@ -33,15 +33,6 @@
                 <li>Bonne réponse : texte en <b>gras</b> dans Word</li>
                 <li>Plusieurs bonnes réponses possibles : mettre plusieurs réponses en gras</li>
             </ol>
-            <hr>
-            <p><b>Mode manuel (texte brut)</b></p>
-            <ol>
-                <li>Question : numéro + point + espace + texte</li>
-                <li>Réponse : lettre + point + espace + texte</li>
-                <li>Bonne réponse : <code>*</code> collé à la fin (sans espace !)</li>
-                <li>Séparateur : une ligne vide entre chaque question</li>
-                <li>Fin du document : exactement une ligne vide</li>
-            </ol>
         </div>
     </div>
 
