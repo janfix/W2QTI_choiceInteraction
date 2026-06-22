@@ -47,7 +47,7 @@
                 Your word document must respect a simple format. <span title="click to expand Model"
                     class="checkFormat">Check the format</span>, modify your document and then paste your work in the
                 text area. Please stay under 100 questions in a row.
-                <a href="https://www.wiquid.fr/projects/w2qti/cmod.docx">You can download here a Word.docx modele to
+                <a href="{{ asset('cmod.docx') }}">You can download here a Word.docx modele to
                     help you.</a>
             </p>
 
