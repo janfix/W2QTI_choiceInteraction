@@ -25,4 +25,4 @@ RUN echo '<VirtualHost *:80>\n\
 
 EXPOSE 80
 
-CMD ["apache2-foreground"]
+CMD ["bash", "-c", "chmod -R 777 /var/www/html/public && apache2-foreground"]
