@@ -12,7 +12,7 @@ W2QTI is a web application that converts your multi-choice or single-choice ques
 
 You can easely import to your assessment platform not only your items' content but also their correction and soon many other options and CSS choices.
 
-The idea is to respect a very simple structure in a Word document. Modify your document and then paste your work in the text area. Please stay under 150 questions in a row. You can download [here a Word.docx model](cmod.docx) to help you.
+Simply upload your Word document and the converter handles the rest. Download the [Word template (cmod.docx)](cmod.docx) to get started quickly.
 
 This converter does not save any data about your item on the server. No cookies and no information are stored.
 
@@ -20,21 +20,53 @@ This converter does not save any data about your item on the server. No cookies 
 
 ## Word Document Format
 
-Your document must follow a strict structure. Copy it from the [cmod.docx](cmod.docx) template or apply these rules manually.
+Two modes are available. The **Upload mode** (recommended) requires no copy-paste and no special syntax.
 
-### Rules
+### Upload Mode (recommended)
+
+Structure your Word document using native Word formatting:
+
+| Element | Word formatting |
+|---|---|
+| Question | **Numbered list** (Home → "List Number" style) |
+| Answer | **Bulleted list** (Home → "List Bullet" style), indented under the question |
+| Correct answer | **Bold** the answer text |
+| Multiple correct answers | Bold several answers |
+
+No asterisks, no empty lines, no manual numbering — Word handles all of that.
+
+**Example (as seen in Word):**
+
+```
+1. Which of the following is the capital of France?
+   • London
+   • Paris          ← bold in Word
+   • Berlin
+   • Madrid
+
+2. What is the chemical symbol for water?
+   • CO2
+   • H2O            ← bold in Word
+   • NaCl
+```
+
+Download [cmod.docx](cmod.docx) for a ready-to-use template.
+
+---
+
+### Manual Mode (plain text fallback)
+
+If you prefer to paste plain text, switch to **Manual mode** in the app and follow these rules:
 
 | Element | Format |
 |---|---|
 | Question | `number` + `.` + `space` + question text |
 | Answer | `letter` + `.` + `space` + answer text |
-| Correct answer | add `*` at the very end of the answer (no trailing space!) |
+| Correct answer | `*` at the very end of the answer (no trailing space!) |
 | Separator between questions | one empty line |
 | End of document | exactly one empty line |
 
 > **Warning:** a space after the `*` will break the parser — the asterisk must be the very last character of the line.
-
-### Example
 
 ```
 1. Which of the following is the capital of France?
@@ -47,7 +79,6 @@ d. Madrid
 a. CO2
 b. H2O*
 c. NaCl
-d. O2
 
 ```
 

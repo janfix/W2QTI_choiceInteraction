@@ -76,3 +76,21 @@ display:none;
 #downloadDone{
     display:none;
 }
+
+.upload-zone {
+    border: 2px dashed #6c757d;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.upload-zone:hover,
+.upload-zone.dragover {
+    border-color: #0d6efd;
+    background-color: #f0f7ff;
+}
