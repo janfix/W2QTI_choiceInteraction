@@ -12,34 +12,33 @@ class convertisseur extends Controller
        
     public function createRootDir(Request $request)
     {
-       //echo 'problem ?';
-       $dirname = $request->dirname;
+       $dirname = public_path($request->dirname);
        mkdir($dirname, 0777, true);
     }
 
     public function createDirs(Request $request)
     {
         $data = $request->data;
-        $dirname = $request->dirname;
-        for ($i=1; $i < ($data) ; $i++) { 
-        mkdir($dirname.'/Q'.$i, 0777, true);	
+        $dirname = public_path($request->dirname);
+        for ($i=1; $i < ($data) ; $i++) {
+        mkdir($dirname.'/Q'.$i, 0777, true);
         }
     }
 
     public function createManifest(Request $request)
-    {   //fusion header / ressources // footer
+    {
         $data = $request->data;
-        $dirname = $request->dirname;
+        $dirname = public_path($request->dirname);
         $manifest = fopen($dirname."/imsmanifest.xml", "w");
         fwrite($manifest,$data);
         fclose($manifest);
     }
 
-     public function writeQTIContent(Request $request)
-    {   
+    public function writeQTIContent(Request $request)
+    {
         $data = $request->data;
         $QTI_id = $request->name;
-        $dirname = $request->dirname;
+        $dirname = public_path($request->dirname);
         $qtiContent = fopen($dirname."/".$QTI_id."/qti.xml", "w");
         fwrite($qtiContent,$data);
         fclose($qtiContent);
@@ -47,8 +46,7 @@ class convertisseur extends Controller
 
     public function qtizipper(Request $request)
     {
-       
-        $dirname = $request->dirname;
+        $dirname = public_path($request->dirname);
       // Get real path for our folder
         $rootPath = realpath($dirname);
 
@@ -98,9 +96,9 @@ class convertisseur extends Controller
 
     public function cleaner(Request $request)
     {
-        $dirname = $request->dirname;
-        $zipfile = $request->zipname;
-        
+        $dirname = public_path($request->dirname);
+        $zipfile = public_path($request->zipname);
+
         function deleteDirectory($dir) {
             if (!file_exists($dir)) {
                 return true;

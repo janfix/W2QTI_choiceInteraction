@@ -10,7 +10,6 @@
                 <li><b>Liste à puces</b> (indentée) pour les réponses</li>
                 <li><b>Gras</b> sur la bonne réponse</li>
             </ul>
-            <img src="img/docx-example.png" alt="exemple format Word" style="max-width:400px; border:1px solid #ccc; border-radius:4px;" onerror="this.style.display='none'">
             <pre style="background:#f8f9fa; border:1px solid #dee2e6; border-radius:4px; padding:12px; margin-top:10px;">
 1. Quelle est la capitale de la France ?
    • Londres
