@@ -12,9 +12,44 @@ W2QTI is a web application that converts your multi-choice or single-choice ques
 
 You can easely import to your assessment platform not only your items' content but also their correction and soon many other options and CSS choices.
 
-The idea is to respect a very simple structure in a Word document. Modify your document and then paste your work in the text area. Please stay under 150 questions in a row. You can download <a href="https://www.wiquid.fr/projects/w2qti/cmod.docx" target="_blank" >here a Word.docx modele</a> to help you.
+The idea is to respect a very simple structure in a Word document. Modify your document and then paste your work in the text area. Please stay under 150 questions in a row. You can download [here a Word.docx model](cmod.docx) to help you.
 
 This converter does not save any data about your item on the server. No cookies and no information are stored.
+
+---
+
+## Word Document Format
+
+Your document must follow a strict structure. Copy it from the [cmod.docx](cmod.docx) template or apply these rules manually.
+
+### Rules
+
+| Element | Format |
+|---|---|
+| Question | `number` + `.` + `space` + question text |
+| Answer | `letter` + `.` + `space` + answer text |
+| Correct answer | add `*` at the very end of the answer (no trailing space!) |
+| Separator between questions | one empty line |
+| End of document | exactly one empty line |
+
+> **Warning:** a space after the `*` will break the parser — the asterisk must be the very last character of the line.
+
+### Example
+
+```
+1. Which of the following is the capital of France?
+a. London
+b. Berlin
+c. Paris*
+d. Madrid
+
+2. What is the chemical symbol for water?
+a. CO2
+b. H2O*
+c. NaCl
+d. O2
+
+```
 
 ---
 
