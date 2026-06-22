@@ -16,14 +16,21 @@ export default function zipper(codeItem, rootDir, ObjItemSerie) {
         data: ({ dirname: rootDir }),
         url: 'qtizipper',
         success: function (data) {
-            window.open(document.URL + data);
+            const downloadUrl = window.location.origin + '/' + data;
+            $('#downloadLink')
+                .attr('href', downloadUrl)
+                .show();
+            $('#downloadLink').one('click', function () {
+                setTimeout(() => {
+                    cleanAll(rootDir, data);
+                    $('#downloadLink').hide();
+                }, 8000);
+            });
             setTimeout(() => {
                 $("#wait").hide();
                 $("#zipper").prop("disabled", true);
-                $(".cleaner").prop("disabled", false);
                 $("#downloadDone").show();
-                cleanAll(rootDir, data);
-            }, 5000);
+            }, 500);
         }
     });
 

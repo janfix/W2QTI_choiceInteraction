@@ -1,92 +1,298 @@
-
 @import "~bootstrap/dist/css/bootstrap.min";
 
+/* ── Design system ──────────────────────────────────────── */
+:root {
+  --bg:       #0f1115;
+  --panel:    #ffffff;
+  --ink:      #1a1d23;
+  --muted:    #6b7280;
+  --line:     #e3e6eb;
+  --brand:    #1971c2;
+  --brand-d:  #155a9c;
+  --ok:       #2f9e44;
+  --ok-bg:    #ebfbee;
+  --err:      #e03131;
+  --err-bg:   #fff5f5;
+  --drop:     #f8fafc;
+  --drop-hi:  #e7f1fb;
+}
+
+/* ── Reset Bootstrap interférences ─────────────────────── */
+* { box-sizing: border-box; }
+
 body {
-    font-family: sans-serif;
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #f1f3f5;
+  color: var(--ink);
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
-li {
-    margin-bottom: 10px;
+/* ── Topbar ─────────────────────────────────────────────── */
+.topbar {
+  width: 100%;
+  background: var(--bg);
+  color: #fff;
+  padding: 18px 0;
+  text-align: center;
+}
+.topbar h1 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: .2px;
+}
+.topbar p {
+  margin: 4px 0 0;
+  color: #9aa3af;
+  font-size: .85rem;
 }
 
+/* ── Carte centrale ─────────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 640px;
+  background: var(--panel);
+  margin: 32px 16px;
+  border: 1px solid var(--line) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,.06);
+  padding: 28px;
+}
+
+/* ── Barre guide ────────────────────────────────────────── */
+.guide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--drop);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 22px;
+  font-size: .9rem;
+}
+.guide a {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+}
+.guide a:hover { text-decoration: underline; }
+.guide .tmpl { display: flex; align-items: center; gap: 8px; }
+.guide .link {
+  color: var(--brand);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.guide .link:hover { text-decoration: underline; }
+
+/* ── Panneau règles de format ───────────────────────────── */
 .Wexample {
-    display: none;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    /*  padding-top: 10px;
-    padding-bottom: 5px; */
-    border: 1px #cbf2ee solid;
-    background-color: orange;
+  display: none;
+  position: relative;
+  background: #fffbf0;
+  border: 1px solid #ffe066;
+  border-radius: 10px;
+  padding: 16px 18px 16px;
+  margin-bottom: 20px;
+  font-size: .88rem;
 }
-
-.checkFormat {
-    font-weight: bold;
-    cursor: pointer;
+.Wexample h4 {
+  margin: 0 0 8px;
+  font-size: .95rem;
+  font-weight: 700;
 }
+.Wexample ul, .Wexample ol { padding-left: 20px; margin: 6px 0; }
+.Wexample li { margin-bottom: 4px; }
+.Wexample pre {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-top: 10px;
+  font-size: .82rem;
+  overflow-x: auto;
+}
+.wex-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 540px) { .wex-cols { grid-template-columns: 1fr; } }
 
 .closer {
-    font-size: 20px;
-    float: right;
-    color: red;
-    font-weight: bold;
-    cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
 }
+.closer:hover { color: var(--err); }
 
-.confirm {
-    display: none;
-    color: green;
-    font-weight: bold;
-    margin-left: 10px;
-    border: 1px green solid;
-    padding: 5px;
+/* ── Zone de dépôt ──────────────────────────────────────── */
+.drop {
+  border: 2px dashed #c4ccd6;
+  border-radius: 12px;
+  background: var(--drop);
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: .15s border-color, .15s background;
 }
+.drop:hover { border-color: var(--brand); }
+.drop.dragover { border-color: var(--brand); background: var(--drop-hi); }
+.drop .ico { font-size: 2.4rem; }
+.drop .big { margin: 10px 0 2px; font-size: 1rem; }
+.drop .big b { color: var(--brand); }
+.drop .sub { color: var(--muted); font-size: .82rem; margin: 0; }
 
-#wsource1 {
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+/* ── Fichier sélectionné ────────────────────────────────── */
+.filebox {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-top: 0;
+  padding: 10px 14px;
+  background: var(--ok-bg);
+  border: 1px solid #b2f2bb;
+  border-radius: 8px;
+  font-size: .9rem;
 }
+.filebox .check { color: var(--ok); font-weight: 700; }
+.filebox .x {
+  margin-left: auto;
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: 700;
+  border: 0;
+  background: none;
+  font-size: 1rem;
+  padding: 0;
+  line-height: 1;
+}
+.filebox .x:hover { color: var(--err); }
 
+/* ── Bouton principal ───────────────────────────────────── */
+.btn-action {
+  width: 100%;
+  margin-top: 18px;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--brand);
+  cursor: pointer;
+  transition: .15s background;
+}
+.btn-action:hover:not(:disabled) { background: var(--brand-d); }
+.btn-action:disabled { background: #cbd3dc; cursor: not-allowed; color: #fff; }
+.btn-action.success { background: var(--ok); }
+.btn-action.success:hover { background: #2b8a3e; }
+.btn-download { background: var(--ok); display: block; text-align: center; text-decoration: none; }
+.btn-download:hover { background: #2b8a3e; color: #fff; }
+
+/* ── Chargement ─────────────────────────────────────────── */
 #wait {
-    display: none;
+  display: none;
+  margin-top: 14px;
+  font-size: .9rem;
+  color: var(--muted);
 }
 
-button {
-    margin: 3px !important;
+.spinner {
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #c4ccd6;
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Infos résultat ─────────────────────────────────────── */
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: .88rem;
+}
+.info-row .Qnb,
+.info-row .itemDescription {
+  color: var(--muted);
+}
+.info-row #downloadDone {
+  display: none;
+  color: var(--ok);
+  font-weight: 600;
 }
 
-.waitdiv {
-    display: inline;
+/* ── Erreurs ────────────────────────────────────────────── */
+.errormessage {
+  margin-top: 12px;
+  font-size: .9rem;
 }
-textarea{
-    border : 1px grey solid;
-    border-radius: 5px;
-}
-
-#convertDone{
-display:none;
-}
-
-#downloadDone{
-    display:none;
+.errormessage:not(:empty) {
+  color: var(--err);
+  background: var(--err-bg);
+  border: 1px solid #ffc9c9;
+  padding: 10px 14px;
+  border-radius: 8px;
 }
 
-.upload-zone {
-    border: 2px dashed #6c757d;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: border-color 0.2s, background-color 0.2s;
-    min-height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/* ── JSON repliable ─────────────────────────────────────── */
+details {
+  margin-top: 22px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-size: .85rem;
+  user-select: none;
+}
+summary:hover { color: var(--ink); }
+details textarea {
+  width: 100%;
+  height: 160px;
+  margin-top: 10px;
+  font-family: ui-monospace, Menlo, monospace;
+  font-size: .78rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  resize: vertical;
 }
 
-.upload-zone:hover,
-.upload-zone.dragover {
-    border-color: #0d6efd;
-    background-color: #f0f7ff;
+/* ── Footer ─────────────────────────────────────────────── */
+.site-footer {
+  width: 100%;
+  text-align: center;
+  padding: 14px 0 20px;
+  font-size: .8rem;
+  color: var(--muted);
+  margin-top: auto;
 }
+.site-footer a {
+  color: var(--brand);
+  text-decoration: none;
+}
+.site-footer a:hover { text-decoration: underline; }

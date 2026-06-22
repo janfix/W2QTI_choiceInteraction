@@ -17,7 +17,7 @@ export default function createRootDir(rootDir, codeItem, ObjItemSerie) {
         success: function (data) {
             $("#wait").show();
            createDirs(codeItem, rootDir, ObjItemSerie)
-            $("#zipper").on("click", function () {
+            $("#zipper").off("click").on("click", function () {
                 zipper(codeItem, rootDir, ObjItemSerie);
             })
             $(".cleaner").on("click", function () {

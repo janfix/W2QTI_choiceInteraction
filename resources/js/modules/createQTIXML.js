@@ -8,13 +8,76 @@ export default function createQTIXML(codeItem, rootDir, ObjItemSerie) {
         var Qindex = "Q" + (i + 1);
         var shortQ = Object.keys(ObjItemSerie[i][Qindex])[0].substring(0, 20);
         var ans =  ObjItemSerie[i][Qindex].Ans;
+        var questionType = ObjItemSerie[i][Qindex]['type'] || 'choiceInteraction';
         var maxChoices=0;
         var QTIXML_Header =
             '<?xml version="1.0" encoding="UTF-8"?>' +
-            '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:m="http://www.w3.org/1998/Math/MathML" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="' + Qindex + '"' +
+            '<assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p2 http://www.imsglobal.org/xsd/qti/qtiv2p2/imsqti_v2p2.xsd" identifier="' + Qindex + '"' +
             ' title="' + Qindex + '-' + shortQ + '" label="' + Qindex + '" xml:lang="en-US" adaptive="false" timeDependent="false" toolName="TAO" toolVersion="3.2.0-RC2">';
-       
-        
+
+        var Intitulex = Object.keys(ObjItemSerie[i][Qindex])[0]; // Item intitulé
+        var totalQti;
+
+        if (questionType === 'matchInteraction') {
+            const matchData = ObjItemSerie[i][Qindex];
+            const rows      = matchData.matchRows  || [];
+            const cols      = matchData.matchCols  || [];
+            const assoc     = matchData.matchAssoc || [];
+            const maxAssoc  = assoc.length;
+
+            let corrValues = '';
+            for (const a of assoc) {
+                corrValues += '<value><![CDATA[r_' + (a.rowIdx + 1) + ' c_' + (a.colIdx + 1) + ']]></value>';
+            }
+            // correctResponse requires at least one <value>; omit it entirely when no correct associations
+            const correctResponseBlock = corrValues.length > 0
+                ? '<correctResponse>' + corrValues + '</correctResponse>'
+                : '';
+
+            let rowChoices = '';
+            rows.forEach(function (label, idx) {
+                rowChoices += '<simpleAssociableChoice identifier="r_' + (idx + 1) + '" fixed="false" showHide="show" matchMax="0" matchMin="0">' + label + '</simpleAssociableChoice>';
+            });
+
+            let colChoices = '';
+            cols.forEach(function (label, idx) {
+                colChoices += '<simpleAssociableChoice identifier="c_' + (idx + 1) + '" fixed="false" showHide="show" matchMax="0" matchMin="0">' + label + '</simpleAssociableChoice>';
+            });
+
+            totalQti = QTIXML_Header +
+                '<responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">' +
+                correctResponseBlock +
+                '</responseDeclaration>' +
+                '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="1"/>' +
+                '<outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">' +
+                '<defaultValue><value>1</value></defaultValue></outcomeDeclaration>' +
+                '<itemBody><div class="grid-row"><div class="col-12">' +
+                '<matchInteraction responseIdentifier="RESPONSE" shuffle="false" maxAssociations="' + maxAssoc + '" minAssociations="0">' +
+                '<prompt>' + Intitulex + '</prompt>' +
+                '<simpleMatchSet>' + rowChoices + '</simpleMatchSet>' +
+                '<simpleMatchSet>' + colChoices + '</simpleMatchSet>' +
+                '</matchInteraction></div></div></itemBody>' +
+                '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>' +
+                '</assessmentItem>';
+
+        } else if (questionType === 'extendedTextInteraction') {
+            console.log("ExtendedText - Open question");
+            totalQti = QTIXML_Header +
+                '<responseDeclaration identifier="RESPONSE" cardinality="single" baseType="string"/>' +
+                '<outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float" normalMaximum="0"/>' +
+                '<outcomeDeclaration identifier="MAXSCORE" cardinality="single" baseType="float">' +
+                '<defaultValue><value>0</value></defaultValue>' +
+                '</outcomeDeclaration>' +
+                '<itemBody>' +
+                '<div class="grid-row"><div class="col-12">' +
+                '<extendedTextInteraction format="plain" responseIdentifier="RESPONSE">' +
+                '<prompt>' + Intitulex + '</prompt>' +
+                '</extendedTextInteraction>' +
+                '</div></div></itemBody>' +
+                '<responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/>' +
+                '</assessmentItem>';
+        } else {
+
         function ResponseDeclarationBuilder(ans){
             var ansLength = ans.length;
             var RespDec, corrRespValue="";
@@ -23,7 +86,7 @@ export default function createQTIXML(codeItem, rootDir, ObjItemSerie) {
                 for (let y = 0; y < ans.length; y++) {
                     ans[y];
                     corrRespValue = '<value><![CDATA[choice_' + ans[y] + ']]></value>' + corrRespValue
-                    
+
                 }
                 RespDec = '<responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="identifier"><correctResponse >' +corrRespValue + '</correctResponse>';
                 maxChoices = 0;
@@ -40,11 +103,10 @@ export default function createQTIXML(codeItem, rootDir, ObjItemSerie) {
             }
 
             return RespDec;
-        }    
+        }
 
         var ResponseDeclaration =  ResponseDeclarationBuilder(ans)
 
-        var Intitulex = Object.keys(ObjItemSerie[i][Qindex])[0]; // Item intitulé
         var AnswerNb = ObjItemSerie[i][Qindex][Intitulex].length + 1;
         var mapline;
         var maplineSet = "";
@@ -68,9 +130,11 @@ export default function createQTIXML(codeItem, rootDir, ObjItemSerie) {
             ansSet = ansSet + ansLine;
         }
         var qtiFooter = ' </choiceInteraction></div></div></itemBody><responseProcessing template="http://www.imsglobal.org/question/qti_v2p2/rptemplates/match_correct"/></assessmentItem>';
-        var totalQti = QTIXML_Header + ResponseDeclaration + maplineSet + bodyQTI + realQuestion + ansSet + qtiFooter;
+        totalQti = QTIXML_Header + ResponseDeclaration + maplineSet + bodyQTI + realQuestion + ansSet + qtiFooter;
         maplineSet = "";
         ansSet = "";
+
+        } // end choiceInteraction branch
 
         $.ajaxSetup({
             headers: {

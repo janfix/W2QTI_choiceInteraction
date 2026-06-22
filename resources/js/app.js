@@ -4,10 +4,10 @@ import parseDocx from './modules/docxParser';
 
 // Format rules panel toggle
 $(".checkFormat").on("click", function () {
-    $(".Wexample").slideToggle(400);
+    $(".Wexample").slideToggle(300);
 });
 $(".closer").on("click", function () {
-    $(".Wexample").slideToggle(400);
+    $(".Wexample").slideUp(300);
 });
 
 // Drag & drop on upload zone
@@ -31,8 +31,32 @@ $('#docxFile').on('change', function (e) {
     if (file) handleFile(file);
 });
 
+// Clear file selection
+$('#clearFile').on('click', function () {
+    resetFileState();
+});
+
 function handleFile(file) {
     $('#fileName').text(file.name);
+    $('#filebox').css('display', 'flex');
+    $('#dropZone').hide();
     $(".errormessage").html("");
+    $(".Qnb").html("");
+    $(".itemDescription").html("");
+    $("#downloadDone").hide();
+    $("#zipper").prop("disabled", true);
     parseDocx(file);
+}
+
+function resetFileState() {
+    $('#docxFile').val('');
+    $('#filebox').hide();
+    $('#dropZone').show();
+    $(".errormessage").html("");
+    $(".Qnb").html("");
+    $(".itemDescription").html("");
+    $("#downloadDone").hide();
+    $("#zipper").prop("disabled", true);
+    $("#result").val('');
+    $("#wait").hide();
 }

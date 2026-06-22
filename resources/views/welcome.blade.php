@@ -19,13 +19,16 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
-        <link rel="stylesheet" href="../css/app.css">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body class="antialiased">
         <x-header></x-header>
         <x-app></x-app>
+        <footer class="site-footer">
+            Author : Jean-Philippe Rivière &mdash; <a href="https://www.wiquid.fr" target="_blank">Wiquid</a> &mdash; 2026
+        </footer>
         
-        <script src="../js/app.js"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
